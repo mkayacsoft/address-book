@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,9 +25,24 @@ public class UserServiceImpl implements IUserService {
     @Override
     public DTOUser getUserById(int id) {
         Optional<User> optionalUser = repository.findById(id);
-
         // Kullanıcı varsa DTO'ya çevir, yoksa hata fırlat
         User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
         return mapper.toDto(user);
     }
+
+    @Override
+    public DTOUser saveUser(DTOUser dtoUser) {
+        User user = mapper.toEntity(dtoUser);
+       User dbUser =repository.save(user);
+        return mapper.toDto(dbUser);
+    }
+
+    @Override
+    public List<DTOUser> getAllUser(DTOUser dtoUser) {
+        List<User> users = repository.findAll();
+        return mapper.toListDTO(users);
+
+    }
+
+
 }

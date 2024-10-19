@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DTOUser {
+    private Integer id;
     private String name;
     private String lastName;
 }

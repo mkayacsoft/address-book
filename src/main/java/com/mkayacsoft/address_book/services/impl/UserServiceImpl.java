@@ -1,6 +1,7 @@
 package com.mkayacsoft.address_book.services.impl;
 
 import com.mkayacsoft.address_book.dto.DTOUser;
+import com.mkayacsoft.address_book.dto.DTOUserIU;
 import com.mkayacsoft.address_book.mapper.UserMapper;
 import com.mkayacsoft.address_book.model.User;
 import com.mkayacsoft.address_book.repository.UserRepository;
@@ -25,14 +26,13 @@ public class UserServiceImpl implements IUserService {
     @Override
     public DTOUser getUserById(int id) {
         Optional<User> optionalUser = repository.findById(id);
-        // Kullanıcı varsa DTO'ya çevir, yoksa hata fırlat
         User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
         return mapper.toDto(user);
     }
 
     @Override
-    public DTOUser saveUser(DTOUser dtoUser) {
-        User user = mapper.toEntity(dtoUser);
+    public DTOUser saveUser(DTOUserIU dtoUserIU) {
+        User user = mapper.toEntity(dtoUserIU);
        User dbUser =repository.save(user);
         return mapper.toDto(dbUser);
     }

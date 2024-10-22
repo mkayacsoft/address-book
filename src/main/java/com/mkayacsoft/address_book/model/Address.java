@@ -1,5 +1,6 @@
 package com.mkayacsoft.address_book.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,4 +17,7 @@ public class Address {
     private Integer id;
     @Column(name = "address_description")
     private String addressDescription;
+
+    @ManyToOne
+    private User user;
 }

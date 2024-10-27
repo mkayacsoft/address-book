@@ -1,8 +1,14 @@
 package com.mkayacsoft.address_book.services.impl;
 
+import com.mkayacsoft.address_book.dto.DTOAddress;
 import com.mkayacsoft.address_book.dto.DTOUser;
 import com.mkayacsoft.address_book.dto.DTOUserIU;
+import com.mkayacsoft.address_book.exception.BaseException;
+import com.mkayacsoft.address_book.exception.ErrorMessage;
+import com.mkayacsoft.address_book.exception.MessageType;
+import com.mkayacsoft.address_book.mapper.AddressMapper;
 import com.mkayacsoft.address_book.mapper.UserMapper;
+import com.mkayacsoft.address_book.model.Address;
 import com.mkayacsoft.address_book.model.User;
 import com.mkayacsoft.address_book.repository.UserRepository;
 import com.mkayacsoft.address_book.services.IUserService;
@@ -26,8 +32,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public DTOUser getUserById(int id) {
         Optional<User> optionalUser = repository.findById(id);
-        User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
-        return mapper.toDto(user);
+        if (optionalUser.isEmpty()){
+            throw new BaseException(new ErrorMessage(MessageType.NO_RECORD_EXIST,null));
+        }
+        return mapper.toDto(optionalUser.get());
+
     }
 
     @Override

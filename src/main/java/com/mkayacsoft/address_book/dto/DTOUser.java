@@ -16,4 +16,5 @@ public class DTOUser {
     private String name;
     private String lastName;
     private List<DTOAddress> addresses;
+
 }
